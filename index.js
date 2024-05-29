@@ -8,7 +8,7 @@ const PORT = 8000;
 dotenv.config();
 const app = express();
 app.set('view engine', ejs);
-app.set('views', path.resolve('/views')) // ejs setup
+app.set('views', path.resolve('./views')) // ejs setup
 
 connectToDB(process.env.MONGODBURL)
 .then(()=>{
