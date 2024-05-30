@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Home Page</h1>
-
+    <% if (locals.fullname) { %>
+        <h3>Welcome <%= fullname %></h3>
+    <% } %>
 
     <%- include('./partials/script') %>
     
