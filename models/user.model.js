@@ -49,6 +49,7 @@ userSchema.static('matchPassword', async function (email,password) {
     if(!user) throw new Error('User not Found');
     const hashpwd = createHmac('sha256', user.salt).update(password).digest('hex');
     if(hashpwd !== user.password) throw new Error('Incorrect password...');
+    // return {...user._doc, password: undefined, salt: undefined}; // check this...
     return {...user, password: undefined, salt: undefined};
 })
 const User = model('User', userSchema);
