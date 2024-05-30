@@ -8,7 +8,7 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        required: truw,
+        required: true,
         unique: true
     },
     salt: {
@@ -34,7 +34,7 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function (next) {
     const user = this;
-
+    console.log('Inside pre call....');
     if(!user.isModified("password")) return; 
 
     const salt = randomBytes(16).toString();
