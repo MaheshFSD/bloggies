@@ -13,9 +13,13 @@ const createToken = (user) => {
 }
 
 const verifyToken = (token) => {
-    const user = jwt.verify(token, secret);
-    if(!user) return null
-    return user;
+    try {
+        const user = jwt.verify(token, process.env.secret);
+        if(!user) return null
+        return user;
+    } catch (error) {
+        return null;
+    }
 }
 
 module.exports = {createToken, verifyToken}

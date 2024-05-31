@@ -13,13 +13,35 @@ router.post('/login', async (req,res) => {
     // here in the above line instead of user we can receive jwt token 
     
     // const token = await User.matchPassword(email,password); 
-
-    try {
-        const token = await User.matchPasswordAndGenerateToken(email,password); // changing the name from matchPassword to matchPasswordAndGenerateToken
-        console.log(token, ' ---------- jwt token i created --------');
-        res.cookie('token', token).render('home');
-    } catch (error) {
-        res.render('login', {error: "incorrect email or password"})
+    if(!req.user && !req.cookies?.token){
+        try {
+            const token = await User.matchPasswordAndGenerateToken(email,password); // changing the name from matchPassword to matchPasswordAndGenerateToken
+            console.log(token, ' ---------- jwt token i created --------');
+            res.cookie('token', token).render('home');
+        } catch (error) {
+            res.render('login', {error: "incorrect email or password"})
+        }
+    }
+    else {
+        console.log(req.user, ' =========== req.user -========= ');
+        console.log(req.cookies, ' =========== req.user -========= ');
+        // console.log(verifyToken(req.cookies?.token), ' =========== req.user -========= ');
+        // console.log(req.user === verifyToken(req.cookies?.token), ' =========== req.user -========= ');
+        // const verifiedUser = verifyToken(req.cookies?.token);
+        // if(req.user['email'] === verifiedUser['_id']) {
+        //     console.log(' ------inside authorized user ------ ');
+        //     res.render('home', {user: req.user});
+        // }
+        // else return res.render('login', {
+        //     error: "Wrong email or password."
+        // })
+        if(req.user && req.cookies?.token) return res.render('home', {user: req.user});
+        else {
+            res.clearCookie('token');
+            return res.render('login', {
+                error: "Wrong email or password."
+            })
+        }
     }
     // Now we keep  everytjhing inside try catch block
 
