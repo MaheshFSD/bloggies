@@ -1,5 +1,6 @@
 const {Router} = require('express');
 const User = require('../models/user.model');
+const {createToken, verifyToken} = require('../services/auth');
 
 const router = Router();
 router.get('/login', (req,res) => {
@@ -14,6 +15,9 @@ router.post('/login', async (req,res) => {
     // console.log(user.password, '------- received user -----');
     // console.log(user.role, '------- received user -----');
     // for now we just redirect it
+    const token = createToken(this)
+    console.log(token, ' ---------- jwt token i created --------');
+    res.cookie('token', token);
     res.render('home', {fullname: user._doc.fullName});
 })
 router.get('/signup', (req,res) => {
