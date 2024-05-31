@@ -8,8 +8,13 @@ router.get('/login', (req,res) => {
 router.post('/login', async (req,res) => {
     const {email, password} = req.body;
     const user = await User.matchPassword(email,password);
+    // console.log(user, '------- received user -----');
+    // console.log(user.fullName, '------- received user -----');
+    // console.log(user.email, '------- received user -----');
+    // console.log(user.password, '------- received user -----');
+    // console.log(user.role, '------- received user -----');
     // for now we just redirect it
-    res.render('home', {fullname: user.fullName});
+    res.render('home', {fullname: user._doc.fullName});
 })
 router.get('/signup', (req,res) => {
     res.render('signup');
