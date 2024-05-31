@@ -15,6 +15,7 @@ const createToken = (user) => {
 const verifyToken = (token) => {
     const user = jwt.verify(token, secret);
     if(!user) return null
+    return user;
 }
 
 module.exports = {createToken, verifyToken}
