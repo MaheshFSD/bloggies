@@ -8,17 +8,34 @@ router.get('/login', (req,res) => {
 })
 router.post('/login', async (req,res) => {
     const {email, password} = req.body;
-    const user = await User.matchPassword(email,password);
+
+    // const user = await User.matchPassword(email,password);
+    // here in the above line instead of user we can receive jwt token 
+    
+    // const token = await User.matchPassword(email,password); 
+
+    try {
+        const token = await User.matchPasswordAndGenerateToken(email,password); // changing the name from matchPassword to matchPasswordAndGenerateToken
+        console.log(token, ' ---------- jwt token i created --------');
+        res.cookie('token', token).render('home');
+    } catch (error) {
+        res.render('login', {error: incorrect email or password})
+    }
+    // Now we keep  everytjhing inside try catch block
+
     // console.log(user, '------- received user -----');
     // console.log(user.fullName, '------- received user -----');
     // console.log(user.email, '------- received user -----');
     // console.log(user.password, '------- received user -----');
     // console.log(user.role, '------- received user -----');
     // for now we just redirect it
-    const token = createToken(this)
-    console.log(token, ' ---------- jwt token i created --------');
-    res.cookie('token', token);
-    res.render('home', {fullname: user._doc.fullName});
+
+
+    // const token = createToken(this)
+    // console.log(token, ' ---------- jwt token i created --------');
+    // res.cookie('token', token);
+    // res.render('home', {fullname: user._doc.fullName});
+    // res.render('home')
 })
 router.get('/signup', (req,res) => {
     res.render('signup');

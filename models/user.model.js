@@ -1,5 +1,6 @@
 const {Schema, model} = require('mongoose');
 const { createHmac, randomBytes  } = require('node:crypto');
+const {createToken} = require('../services/auth')
 
 const userSchema = new Schema({
     fullName: {
@@ -43,14 +44,18 @@ userSchema.pre('save', function (next) {
     next()
 })
 
-userSchema.static('matchPassword', async function (email,password) {
+// userSchema.static('matchPassword', async function (email,password) {
+userSchema.static('matchPasswordAndGenerateToken', async function (email,password) {
     console.log(email, password, ' -------- params -----');
     const user = await this.findOne({email});
     if(!user) throw new Error('User not Found');
     const hashpwd = createHmac('sha256', user.salt).update(password).digest('hex');
     if(hashpwd !== user.password) throw new Error('Incorrect password...');
     // return {...user._doc, password: undefined, salt: undefined}; // check this...
-    return {...user, password: undefined, salt: undefined};
+
+    // return {...user, password: undefined, salt: undefined};
+    // here instead of returning user we can return jwt token....
+    return createToken(user);
 })
 const User = model('User', userSchema);
 module.exports = User;
