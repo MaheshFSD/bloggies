@@ -19,7 +19,7 @@ router.post('/login', async (req,res) => {
         console.log(token, ' ---------- jwt token i created --------');
         res.cookie('token', token).render('home');
     } catch (error) {
-        res.render('login', {error: incorrect email or password})
+        res.render('login', {error: "incorrect email or password"})
     }
     // Now we keep  everytjhing inside try catch block
 
