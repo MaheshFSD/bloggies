@@ -7,7 +7,7 @@ const checkUserAuthentication = (req,res,next) => {
     const user = verifyToken(token);
     if(!user) return next();
     req.user = user;
-    next();
+    return next();
 }
 
 module.exports = {checkUserAuthentication}

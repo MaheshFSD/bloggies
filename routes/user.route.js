@@ -16,8 +16,13 @@ router.post('/login', async (req,res) => {
     if(!req.user && !req.cookies?.token){
         try {
             const token = await User.matchPasswordAndGenerateToken(email,password); // changing the name from matchPassword to matchPasswordAndGenerateToken
+            // just to get user we user verify token
+            if(!token) return res.render('login', {error: 'Wrong email or password'});
+            const user = verifyToken(token);
+            req.user = user
             console.log(token, ' ---------- jwt token i created --------');
-            res.cookie('token', token).render('home');
+            console.log(user, ' ---------- user from login route ------ ');
+            res.cookie('token', token).render('home',{user});
         } catch (error) {
             res.render('login', {error: "incorrect email or password"})
         }
@@ -61,6 +66,10 @@ router.post('/login', async (req,res) => {
 })
 router.get('/signup', (req,res) => {
     res.render('signup');
+})
+router.get('/logout', (req,res) => {
+    req.user=null;
+    res.clearCookie('token').render('login');
 })
 router.post('/signup', (req,res) => {
     const {fullName, email, password} = req.body;
