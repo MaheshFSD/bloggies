@@ -20,8 +20,6 @@ router.post('/login', async (req,res) => {
             if(!token) return res.render('login', {error: 'Wrong email or password'});
             const user = verifyToken(token);
             req.user = user
-            console.log(token, ' ---------- jwt token i created --------');
-            console.log(user, ' ---------- user from login route ------ ');
             res.cookie('token', token).render('home',{user});
         } catch (error) {
             res.render('login', {error: "incorrect email or password"})
