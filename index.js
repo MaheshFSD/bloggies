@@ -7,6 +7,7 @@ const userRoute = require('./routes/user.route')
 const cookieParser = require('cookie-parser');
 const {checkUserAuthentication} = require('./middlewares/authentication');
 const blogRoute = require('./routes/blog.route')
+const multer  = require('multer')
 
 const PORT = 8000;
 dotenv.config();
