@@ -14,7 +14,7 @@
         <h3>Welcome <%= fullname %></h3>
     <% } %> -->
     <div class="container mt-3">
-        <form>
+        <form action="/blog/add-new" method="post">
             <div class="form-group mt-2">
               <label for="title">Title</label>
               <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Title please" name="title">
@@ -22,6 +22,10 @@
             <div class="form-group mt-2">
                 <label for="exampleFormControlTextarea1">Blog Description</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body"></textarea>
+            </div>
+            <div class="form-group mt-2">
+              <label for="uploadCoverImage">Upload Cover Image</label>
+              <input type="file" class="form-control" id="uploadCoverImage" aria-describedby="uploadCoverImage" placeholder="upload image please" name="uploadCoverImage">
             </div>
             <button type="submit" class="btn btn-primary mt-2">Submit</button>
           </form>

@@ -6,6 +6,7 @@ const path = require('path');
 const userRoute = require('./routes/user.route')
 const cookieParser = require('cookie-parser');
 const {checkUserAuthentication} = require('./middlewares/authentication');
+const blogRoute = require('./routes/blog.route')
 
 const PORT = 8000;
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(checkUserAuthentication);
+app.use('/blog', blogRoute)
 
 app.use('/user', userRoute)
 connectToDB(process.env.MONGODBURL)
