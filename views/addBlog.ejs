@@ -13,7 +13,20 @@
     <!-- <% if (locals.fullname) { %>
         <h3>Welcome <%= fullname %></h3>
     <% } %> -->
-        
+    <div class="container mt-3">
+        <form>
+            <div class="form-group mt-2">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" id="title" aria-describedby="title" placeholder="Title please" name="title">
+            </div>
+            <div class="form-group mt-2">
+                <label for="exampleFormControlTextarea1">Blog Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="body"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+          </form>
+    </div>
+
     <%- include('./partials/script') %>
     
 </body>

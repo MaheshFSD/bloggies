@@ -82,6 +82,9 @@ router.post('/signup', (req,res) => {
 router.get('/', (req,res) => {
     res.render('home');
 })
+router.get('/addBlog', (req,res) => {
+    res.render('addBlog');
+});
 
 module.exports = router;
 
