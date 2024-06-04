@@ -16,7 +16,7 @@ const upload = multer({storage,
     fileFilter: (req,file,cb) => {
         if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg') return cb(null, true);
         else {
-            console.log('Above condition allows only png/jpg files only...');
+            // console.log('Above condition allows only png/jpg files only...');
             cb(null,false);
         }
     },
@@ -32,17 +32,27 @@ router.get('/add-new', (req,res) => {
 
 router.post('/add-new',upload.single('coverImageUrl'), async (req,res) => {
     const {title, body, coverImageUrl} = req.body;
-    console.log(req.body, req.file, ' =------------ body and file  -----');
-    console.log(req.body);
     if(!title && !body ) return null;
     const blog = await Blog.create({
         title,
         body,
-        createdBy: req.user._id,
+        createdBy: req.user?._id,
         coverImageUrl: req.file.path
     });
-    console.log(blog, ' -------- the data posted -------- ');
-    res.render('addBlog', {user: req.user})
+    // console.log(blog, ' -------- the data posted -------- ');
+
+    // res.render('addBlog', {user: req.user})
+    if(!blog) return res.render('addBlog', {error: 'Something went wrong. Blog not created'})
+    const id = blog.createdBy;
+    res.redirect(`/blog/${id}`);
+})
+router.get('/:id', async (req,res) => {
+    console.log(req.params.id, ' ------------- id  ------- ');
+    const createdBy = req.params.id;
+    const blog = await Blog.findOne({createdBy});
+    if(!blog) return res.render('addBlog', {error: 'could not found blog'});
+    console.log(blog, ' --------- requsted blog data ---------');
+    res.render('blog', {blog});
 })
 
 module.exports = router;

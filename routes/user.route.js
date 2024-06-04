@@ -26,8 +26,9 @@ router.post('/login', async (req,res) => {
         }
     }
     else {
-        console.log(req.user, ' =========== req.user -========= ');
-        console.log(req.cookies, ' =========== req.user -========= ');
+        // console.log(req.user, ' =========== req.user -========= ');
+        // console.log(req.cookies, ' =========== req.user -========= ');
+        
         // console.log(verifyToken(req.cookies?.token), ' =========== req.user -========= ');
         // console.log(req.user === verifyToken(req.cookies?.token), ' =========== req.user -========= ');
         // const verifiedUser = verifyToken(req.cookies?.token);
