@@ -4,7 +4,8 @@ const path = require('path')
 
 const multer = require('multer');const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, path.resolve(`./public/uploads/${req.user._id}`))
+    //cb(null, path.resolve("./public/uploads/")); // or
+      cb(null, './public/uploads/'); 
     },
     filename: function (req, file, cb) {
     //   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -30,15 +31,15 @@ router.get('/add-new', (req,res) => {
 });
 
 router.post('/add-new',upload.single('coverImageUrl'), async (req,res) => {
-    const {title, body} = req.body;
+    const {title, body, coverImageUrl} = req.body;
     console.log(req.body, req.file, ' =------------ body and file  -----');
     console.log(req.body);
     if(!title && !body ) return null;
     const blog = await Blog.create({
         title,
         body,
-        createdBy: req.user._id
-        // coverImageUrl 
+        createdBy: req.user._id,
+        coverImageUrl: req.file.path
     });
     console.log(blog, ' -------- the data posted -------- ');
     res.render('addBlog', {user: req.user})
