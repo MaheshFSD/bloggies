@@ -1,5 +1,6 @@
 const {Router} = require('express');
 const User = require('../models/user.model');
+const Blog = require('../models/blog.model');
 const {createToken, verifyToken} = require('../services/auth');
 
 const router = Router();
@@ -19,8 +20,8 @@ router.post('/login', async (req,res) => {
             // just to get user we user verify token
             if(!token) return res.render('login', {error: 'Wrong email or password'});
             const user = verifyToken(token);
-            req.user = user
-            res.cookie('token', token).render('home',{user});
+            req.user = user;
+            res.cookie('token', token).redirect('/user');
         } catch (error) {
             res.render('login', {error: "incorrect email or password"})
         }
@@ -28,7 +29,7 @@ router.post('/login', async (req,res) => {
     else {
         // console.log(req.user, ' =========== req.user -========= ');
         // console.log(req.cookies, ' =========== req.user -========= ');
-        
+
         // console.log(verifyToken(req.cookies?.token), ' =========== req.user -========= ');
         // console.log(req.user === verifyToken(req.cookies?.token), ' =========== req.user -========= ');
         // const verifiedUser = verifyToken(req.cookies?.token);
@@ -80,8 +81,12 @@ router.post('/signup', (req,res) => {
     if(!user) return res.redirect('/user/signup');
     res.redirect('/user/login');
 })
-router.get('/', (req,res) => {
-    res.render('home');
+router.get('/', async (req,res) => {
+    const createdBy = req.user._id;
+    console.log(createdBy, ' ---------- created by user id ------');
+    const blogs = await Blog.find({createdBy});
+    console.log(blogs, ' -------- all the blogs created by user --------');
+    res.render('home', {blogs, user: req.user});
 })
 
 module.exports = router;

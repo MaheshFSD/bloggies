@@ -48,15 +48,13 @@ router.post('/add-new',upload.single('coverImageUrl'), async (req,res) => {
     // const id = blog.createdBy;
     // req.body = body; 
     // res.redirect(`/blog/${id}`);
-    res.render('blog', {blog});
+    res.render('home', {blog, user: req.user});
 })
 router.get('/:id', async (req,res) => {
-    console.log(req.params.id, ' ------------- id  ------- ');
-    const createdBy = req.params.id;
-    const blog = await Blog.findOne({createdBy});
+    const blog = await Blog.findById(req.params.id);
     if(!blog) return res.render('addBlog', {error: 'could not found blog'});
     console.log(blog, ' --------- requsted blog data ---------');
-    res.render('blog', {blog});
+    return res.render('blog', {user: req.user,blog});
 })
 
 module.exports = router;

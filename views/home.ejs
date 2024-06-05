@@ -12,7 +12,18 @@
     <% if (locals.fullname) { %>
         <h3>Welcome <%= fullname %></h3>
     <% } %>
-
+    <% if (locals.blogs) { %>
+        <% locals.blogs.forEach(blog => { %>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="<%= blog.coverImageUrl%>" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <p class="card-text"><%=blog.body %></p>
+                  <a href="/blog/<%= blog._id %>" class="btn btn-primary">View Blog</a>
+                </div>
+              </div>
+        <% }) %>
+    <% } %>
     <%- include('./partials/script') %>
     
 </body>
