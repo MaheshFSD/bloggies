@@ -57,4 +57,19 @@ router.get('/:id', async (req,res) => {
     return res.render('blog', {user: req.user,blog});
 })
 
+router.post('/comment/:blogId', async (req,res) => {
+    const blogId = req.params.blogId;
+    // do some validation....
+    if(!blogId) return res.render('blog', {user: req.user})
+    const content = req.body;
+    if(!content) return res.redirect('blog');
+    const comment = await Comment.create({
+        content,
+        blogId,
+        createdBy: req.user._id
+    })
+    console.log(comment, ' ============== comment =-======== ');
+    return res.render('blog',{user: req.user, comment, blog: req.blog});
+})
+
 module.exports = router;
