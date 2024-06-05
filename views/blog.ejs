@@ -24,15 +24,23 @@
           </div>
           <% if (locals.user) { %>
             <div class="container mt-3">
-                <h3>Comments</h3>
-                <form action="/blog/comment/<%= blog._id %>" method="post">
+                <h3>Comments (<%= comments.length %>)</h3>
+                <form action="/blog/comment/<%= blog._id%>" method="post">
                     <div class="form-group mt-2">
                         <input type="text" class="form-control" id="content" aria-describedby="content" placeholder="Please add a comment" name="content">
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Add</button>
                 </form>
             </div>
+            <% if (locals.comments) { %>
+                <div class="container mt-3">
+                    <% locals.comments?.forEach(comment => { %>
+                     <div><img src="<%= comment.createdBy.profileImageUrl%>" alt="Profile Pic"><%= comment.createdBy.fullName %> : <pre><%= comment.content %></pre></div>
+                    <% }) %>
+                </div>
+            <% } %>
           <% } %>
+
     <%- include('./partials/script') %>
 </body>
 </html>
