@@ -43,8 +43,10 @@ router.post('/add-new',upload.single('coverImageUrl'), async (req,res) => {
 
     // res.render('addBlog', {user: req.user})
     if(!blog) return res.render('addBlog', {error: 'Something went wrong. Blog not created'})
-    const id = blog.createdBy;
-    res.redirect(`/blog/${id}`);
+    // const id = blog.createdBy;
+    // req.body = body; 
+    // res.redirect(`/blog/${id}`);
+    res.render('blog', {blog});
 })
 router.get('/:id', async (req,res) => {
     console.log(req.params.id, ' ------------- id  ------- ');

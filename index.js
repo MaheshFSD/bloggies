@@ -19,6 +19,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(checkUserAuthentication);
 app.use('/blog', blogRoute)
+app.use(express.static(path.resolve('./public')));
 
 app.use('/user', userRoute)
 connectToDB(process.env.MONGODBURL)
