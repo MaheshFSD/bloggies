@@ -83,9 +83,9 @@ router.post('/signup', (req,res) => {
 })
 router.get('/', async (req,res) => {
     const createdBy = req.user._id;
-    console.log(createdBy, ' ---------- created by user id ------');
+    // console.log(createdBy, ' ---------- created by user id ------');
     const blogs = await Blog.find({createdBy});
-    console.log(blogs, ' -------- all the blogs created by user --------');
+    // console.log(blogs, ' -------- all the blogs created by user --------');
     res.render('home', {blogs, user: req.user});
 })
 
