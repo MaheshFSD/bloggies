@@ -1,5 +1,6 @@
 const {Router} = require('express');
 const Blog = require('../models/blog.model');
+const Comment = require('../models/comment.model');
 const path = require('path');
 const express = require('express');
 
@@ -61,7 +62,7 @@ router.post('/comment/:blogId', async (req,res) => {
     const blogId = req.params.blogId;
     // do some validation....
     if(!blogId) return res.render('blog', {user: req.user})
-    const content = req.body;
+    const {content} = req.body;
     if(!content) return res.redirect('blog');
     const comment = await Comment.create({
         content,
@@ -69,7 +70,7 @@ router.post('/comment/:blogId', async (req,res) => {
         createdBy: req.user._id
     })
     console.log(comment, ' ============== comment =-======== ');
-    return res.render('blog',{user: req.user, comment, blog: req.blog});
+    return res.redirect(`/blog/${blogId}`);
 })
 
 module.exports = router;
