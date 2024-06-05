@@ -1,6 +1,7 @@
 const {Router} = require('express');
 const Blog = require('../models/blog.model');
-const path = require('path')
+const path = require('path');
+const express = require('express');
 
 const multer = require('multer');const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -31,15 +32,16 @@ router.get('/add-new', (req,res) => {
 });
 
 router.post('/add-new',upload.single('coverImageUrl'), async (req,res) => {
-    const {title, body, coverImageUrl} = req.body;
+    const {title, body} = req.body;
     if(!title && !body ) return null;
+    console.log(req.body,req.file, req.user, ' ---------- body and file and user------------');
     const blog = await Blog.create({
         title,
         body,
         createdBy: req.user?._id,
-        coverImageUrl: req.file.path
+        coverImageUrl: `/uploads/${req.file.filename}`
     });
-    // console.log(blog, ' -------- the data posted -------- ');
+    console.log(blog, ' -------- the data posted -------- ');
 
     // res.render('addBlog', {user: req.user})
     if(!blog) return res.render('addBlog', {error: 'Something went wrong. Blog not created'})
