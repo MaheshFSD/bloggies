@@ -12,34 +12,36 @@
     <% if (locals.user.fullname) { %>
         <h3>Welcome <%= user.fullname %></h3>
     <% } %>
+    <div class="container mt-3">
         <div class="card" style="width: 18rem;">
             <!-- <% if (locals.blog.coverImageUrl) { %> -->
-                <img class="card-img-top" src="<%= blog.coverImageUrl%>" alt="Card image cap">
+                <img class="card-img-top" src="<%= blog.coverImageUrl%>" width="700px" alt="Card image cap">
             <!-- <% } %> -->
             <div class="card-body">
               <h5 class="card-title"><%= blog.title %></h5>
               <p class="card-text"><%=blog.body %></p>
               <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
             </div>
-          </div>
-          <% if (locals.user) { %>
-            <div class="container mt-3">
-                <h3>Comments (<%= comments.length %>)</h3>
-                <form action="/blog/comment/<%= blog._id%>" method="post">
-                    <div class="form-group mt-2">
-                        <input type="text" class="form-control" id="content" aria-describedby="content" placeholder="Please add a comment" name="content">
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">Add</button>
-                </form>
+        </div>
+    </div>
+    <% if (locals.user) { %>
+    <div class="container mt-3 ml-auto">
+        <h3>Comments (<%= comments.length %>)</h3>
+        <form action="/blog/comment/<%= blog._id%>" method="post">
+            <div class="form-group mt-2">
+                <input type="text" class="form-control" id="content" aria-describedby="content" placeholder="Please add a comment" name="content">
             </div>
-            <% if (locals.comments) { %>
-                <div class="container mt-3">
-                    <% locals.comments?.forEach(comment => { %>
-                     <div><img src="<%= comment.createdBy.profileImageUrl%>" alt="Profile Pic"><%= comment.createdBy.fullName %> : <pre><%= comment.content %></pre></div>
-                    <% }) %>
-                </div>
-            <% } %>
-          <% } %>
+            <button type="submit" class="btn btn-primary mt-2">Add</button>
+        </form>
+    </div>
+    <% if (locals.comments) { %>
+        <div class="container mt-3">
+            <% locals.comments?.forEach(comment => { %>
+                <div><img src="<%= comment.createdBy.profileImageUrl%>" alt="Profile Pic"><%= comment.createdBy.fullName %> : <pre><%= comment.content %></pre></div>
+            <% }) %>
+        </div>
+    <% } %>
+    <% } %>
 
     <%- include('./partials/script') %>
 </body>
