@@ -8,9 +8,9 @@ const cookieParser = require('cookie-parser');
 const {checkUserAuthentication} = require('./middlewares/authentication');
 const blogRoute = require('./routes/blog.route')
 const multer  = require('multer')
-
-const PORT = 8000;
 dotenv.config();
+
+const PORT = process.env.PORT || 8000;
 const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views')) // ejs setup
